@@ -3,7 +3,6 @@ import parseMilliseconds from 'parse-ms';
 const isZero = value => value === 0 || value === 0n;
 const pluralize = (word, count) => (count === 1 || count === 1n) ? word : `${word}s`;
 
-const SECOND_ROUNDING_EPSILON = 0.000_000_1;
 const ONE_DAY_IN_MILLISECONDS = 24n * 60n * 60n * 1000n;
 
 export default function prettyMilliseconds(milliseconds, options) {
@@ -33,7 +32,9 @@ export default function prettyMilliseconds(milliseconds, options) {
 	let result = [];
 
 	const floorDecimals = (value, decimalDigits) => {
-		const flooredInterimValue = Math.floor((value * (10 ** decimalDigits)) + SECOND_ROUNDING_EPSILON);
+		const scaledValue = value * (10 ** decimalDigits);
+		const epsilon = Number.EPSILON * Math.max(1, scaledValue) * 8;
+		const flooredInterimValue = Math.floor(scaledValue + epsilon);
 		const flooredValue = Math.round(flooredInterimValue) / (10 ** decimalDigits);
 		return flooredValue.toFixed(decimalDigits);
 	};

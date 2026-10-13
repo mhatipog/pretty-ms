@@ -93,6 +93,11 @@ runTests({
 		[2000, {secondsDecimalDigits: 0}, '2s'],
 		[33_333, {secondsDecimalDigits: 0}, '33s'],
 		[33_333, {secondsDecimalDigits: 4}, '33.3330s'],
+		[999.999_999, {subSecondsAsDecimals: true}, '0.9s'],
+		[1999.999_999, '1.9s'],
+		[59_999.999_999, '59.9s'],
+		[59_999.999_999, {colonNotation: true}, '0:59.9'],
+		[59_999.999_999_9, {secondsDecimalDigits: 2}, '59.99s'],
 	],
 });
 
